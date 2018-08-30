@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-	<meta charset="UTF-8">
-	<title>@yield('title','sample') - hello</title>
+    <meta charset="UTF-8">
+    <title>@yield('title','sample') - hello</title>
+    <!-- 这里的视图文件都是从入口文件 public/index 而来, 导入的 css 文件的路径为 public/css/...-->
+    <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
-	@yield('content')
+    <!--引入顶部导航栏 -->
+    @include('layouts._header')
+
+    <div class="container">
+        <div class="col-md-offset-1 col-md-10">
+            <!--供修改的内容部分 -->
+            @yield('content')
+            <!--引入底部信息 -->
+            @include('layouts._footer')
+        </div>
+
+    </div>
+
+
 </body>
 </html>
