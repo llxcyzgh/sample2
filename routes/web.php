@@ -22,4 +22,10 @@ Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
 
 // 注册功能
-Route::get('signup', 'UsersController@create')->name('signup');
+// Route::get('signup', 'UsersController@create')->name('signup');
+
+// restful 用户资源
+Route::resource('users', 'UsersController');
+
+// 测试用路由
+Route::get('tt', 'UsersController@tt')->name('test');

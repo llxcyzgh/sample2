@@ -8468,3 +8468,24 @@ footer .slogon * {
   vertical-align: middle;
 }
 
+/* user_info 局部页面 */
+
+section.user_info {
+  text-align: center;
+}
+
+.gravatar {
+  max-width: 70px;
+  border-radius: 50%;
+}
+
+/* forms */
+
+.panel {
+  margin-top: 50px;
+}
+
+a.user-info {
+  text-decoration: none;
+}
+

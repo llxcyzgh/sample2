@@ -11,15 +11,14 @@
     @include('layouts._header')
 
     <div class="container">
-        <div class="col-md-offset-1 col-md-10">
-            <!--供修改的内容部分 -->
-            @yield('content')
-            <!--引入底部信息 -->
-            @include('layouts._footer')
+        <div class="row">
+            <div class="col-md-offset-1 col-md-10">
+                <!--供修改的内容部分 -->
+                @yield('content')
+                <!--引入底部信息 -->
+                @include('layouts._footer')
+            </div>
         </div>
-
     </div>
-
-
 </body>
 </html>

@@ -9,6 +9,8 @@ $navbar-color:#3c3e42;
 
 
 
+
+
 /* universal */
 
 body {
@@ -28,6 +30,8 @@ textarea {
     text-align: center; //text-align: left;
     //color:red;
 }
+
+
 
 
 
@@ -73,6 +77,8 @@ p {
 
 
 
+
+
 /* header */
 
 .navbar-inverse {
@@ -92,6 +98,8 @@ p {
         color: #fff;
     }
 }
+
+
 
 
 
@@ -135,4 +143,33 @@ footer {
             vertical-align: middle;
         }
     }
+}
+
+
+
+
+/* user_info 局部页面 */
+
+section.user_info {
+    text-align: center;
+}
+
+.gravatar {
+    max-width: 70px;
+    border-radius: 50%;
+}
+
+/* forms */
+
+.panel {
+    margin-top: 50px;
+}
+
+a.user-info{
+    text-decoration: none;
+}
+
+.flash-message{
+    height: 100px;
+    background-color: #ff0;
 }
