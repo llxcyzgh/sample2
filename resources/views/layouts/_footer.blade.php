@@ -4,13 +4,12 @@
         <p class="slogon pull-left">
             <img class="brand-icon" src="https://a.photo/images/2018/08/30/laravel.jpg">
             <a href="/">重复练习, 每日精进</a>
-        </small>
 
-        <nav class="pull-right">
+        <div class="pull-right">
             <ul>
                 <li><a href="{{ route('about') }}">关于</a></li>
             </ul>
-        </nav>
+        </div>
 
     </footer>
 </div>

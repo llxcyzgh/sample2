@@ -7,8 +7,32 @@
             <a href="{{ route('home') }}" id="logo" class="pull-left">Sample App</a>
             <nav>
                 <ul class="nav navbar-nav navbar-right pull-right">
-                    <li class="pull-right"><a href="#">登陆</a></li>
-                    <li class="pull-right"><a href="{{route('help')}}">帮助</a></li>
+                    @if(Auth::check())
+                        <li><a href="{{ route('users.index') }}">用户列表</a></li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                {{ Auth::user()->name }} <i class="caret"></i>
+                            </a>
+                            <ul class="dropdown-menu text-center">
+                                <li class="text-center"><a href="{{ route('users.show',Auth::user()->id) }}">个人中心</a></li>
+                                <li class="text-center"><a href="{{ route('users.edit',Auth::user()->id) }}">编辑资料</a></li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="#">
+                                        <form action="{{ route('logout') }}" method="post">
+                                            {{ csrf_field() }}
+                                            {{ method_field('delete') }}
+                                            <button type="submit" class="btn btn-block btn-danger">退出</button>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @else
+                        <li class="pull-right"><a href="{{ route('login') }}">登陆</a></li>
+                        <li class="pull-right"><a href="{{ route('help') }}">帮助</a></li>
+                    @endif
                 </ul>
             </nav>
         </div>
