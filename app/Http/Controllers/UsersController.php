@@ -3,28 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Auth;
 
 class UsersController extends Controller
 {
+    // 构造函数添加中间件
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'except' => ['index', 'show', 'create', 'store']
+        ]);
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
+
     // index 显示所有用户列表的页面
     public function index()
     {
-        $users = User::all();
-//        var_dump($users->toArray());
-        $data_arr=[];
-        foreach ($users as $user){
-            $data_arr[] = $user->gravatar(80);
-        }
-        return view('users.index', compact('data_arr'));
+//        $users = User::all();
+        $users = User::paginate(10);
+
+//        $data_arr = [];
+//        foreach ($users as $user) {
+//            $data_arr[] = $user->gravatar(80);
+//        }
+//        return view('users.index', compact('data_arr'));
+
+        return view('users.index', compact('users'));
     }
 
     // index 显示个人用户信息的页面
     public function show(User $user)
     {
-        $data = $user->gravatar(80);
-        return view('users.show', compact('data'));
+//        if(Auth::check()){
+//            return view('users.show', compact('user'));
+//        }else{
+//            return redirect('login');
+//        }
+
+//        $data = $user->gravatar(80);
+//        return view('users.show', $data);
+
+        return view('users.show', compact('user'));
     }
 
     // create 显示创建用户页面
@@ -49,34 +73,76 @@ class UsersController extends Controller
             'password' => 'required|confirmed|min:8|max:50',
         ]);
 //        var_dump($request->all());
-        $user  = User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'password'=>bcrypt($request->password)
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => bcrypt($request->password)
         ]);
 
         Auth::login($user);
-        session()->flash('success','恭喜您, 注册成功~');
-        return redirect()->route('users.show',$user);
+        session()->flash('success', '恭喜您, 注册成功~');
+        return redirect()->route('users.show', $user);
 
     }
 
     // edit 显示编辑用户个人资料的页面
-    public function edit()
+    public function edit(User $user)
     {
-        return view('users.edit');
+        try {
+            $this->authorize('update', $user);
+        } catch (AuthorizationException $e) {
+            return abort('403', '无权访问 -- 哼 想乱改别人的信息,没门~');
+//            return '无权访问';
+        }
+        return view('users.edit', compact('user'));
     }
 
     // update 执行更新用户资料的动作
-    public function update()
+    public function update(User $user, Request $request)
     {
+        try {
+            $this->authorize('update', $user);
+        } catch (AuthorizationException $e) {
+            return abort('403', '无权访问 -- 哼 想乱改别人的信息,没门~');
+//            return '无权访问';
+        }
+
+        $this->validate($request, [
+            'name'     => function ($attribute, $value, $fail) {
+                if (!preg_match('/^[a-zA-Z][0-9a-zA-Z]{5,49}$/', $value)) {
+                    return $fail('名称' . '由字母和数字组成(长度在6至50之间),且只能以字母开头');
+                }
+            },
+            'password' => 'nullable|confirmed|min:8|max:50',
+        ]);
+
+        $data         = [];
+        $data['name'] = $request->name;
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+//        var_dump($request->toArray());
+//        exit;
+        $user->update($data);
+
+        session()->flash('success', '更新个人信息成功~');
+        return redirect()->route('users.show', $user->id);
 
     }
 
     // destroy 执行删除用户资料的动作
-    public function destroy()
+    public function destroy(User $user)
     {
+//        var_dump(123);exit;
+        try{
+            $this->authorize('destroy',$user);
+        }catch (AuthorizationException $e){
+            return abort('403', '无权访问 -- 哼 想乱改别人的信息,没门~');
+        }
 
+        $user->delete();
+        session()->flash('success','成功删除用户~');
+        return back();
     }
 
     // 从数据库获取用户个人信息
@@ -89,10 +155,7 @@ class UsersController extends Controller
 
     public function tt()
     {
-//        $url = parse_url('postgres://dsdyjrmwuailar:0e00d595fcbfc73a37d71c8ca4bbf0a73eccd746f444f203b461a89d2cef456c@ec2-107-22-221-60.compute-1.amazonaws.com:5432/ddrlf640s73912');
-//        var_dump($url);
-        var_dump(__DIR__);
-        var_dump(__FILE__);
+        return view('tt');
     }
 
 }

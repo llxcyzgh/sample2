@@ -18,7 +18,7 @@
 // 静态页面
 // 两个 uri 指向同一个控制器的方法
 Route::get('/', 'StaticPagesController@home')->name('home');
-// Route::get('/home', 'StaticPagesController@home')->name('home');
+//Route::get('/home', 'StaticPagesController@home')->name('home2');
 Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
 
@@ -35,4 +35,4 @@ Route::delete('logout','SessionsController@destroy')->name('logout');
 
 
 // 测试用路由
-Route::get('tt', 'UsersController@tt')->name('test');
+Route::get('tt', 'UsersController@tt')->name('tt');

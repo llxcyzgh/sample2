@@ -48,25 +48,27 @@ class User extends Authenticatable
         curl_close($ch);
 
         $output = str_replace(' ', '', strtolower($output));
+
+        $email_bgc_arr = [];
+
         if (strpos(strtolower($output), '404notfound') !== false) {
             // 图片不存在, 进行处理, 存在则直接跳过此步骤
             $url = '';
+            $email_arr = [($this->attributes['email'])[0], ($this->attributes['email'])[1], ($this->attributes['email'])[2]];
+
+            // 按邮箱前三个字符按比例算出rgb值(数字加字母共36个字符)
+            $email_bgc_arr = array_map(function ($v) {
+                if (is_numeric($v)) {
+                    $v = $v + 1;
+                } else {
+                    $v = ord(strtolower($v)) - 96 + 10;
+                }
+                $v = floor($v / 36 * 255);
+                return $v;
+            }, $email_arr);
         }
-
-        $email_arr = [($this->attributes['email'])[0], ($this->attributes['email'])[1], ($this->attributes['email'])[2]];
-
-        // 按邮箱前三个字符按比例算出rgb值(数字加字母共36个字符)
-        $email_bgc_arr = array_map(function ($v) {
-            if (is_numeric($v)) {
-                $v = $v + 1;
-            } else {
-                $v = ord(strtolower($v)) - 96 + 10;
-            }
-            $v = floor($v / 36 * 255);
-            return $v;
-        }, $email_arr);
-        $user = $this;
-        return compact('url', 'email_bgc_arr','user');
+//        $user = $this;
+        return compact('url', 'email_bgc_arr');
     }
 
 }

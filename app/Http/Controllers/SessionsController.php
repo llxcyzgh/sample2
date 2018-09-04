@@ -7,6 +7,13 @@ use Auth;// Auth 是 Illuminate\Support\Facades\Auth 的别名, 可见 app/confi
 //use Illuminate\Support\Facades\Auth;
 class SessionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest',[
+            'only'=>['create']
+        ]);
+    }
+
     // 显示 创建sesssion---用户登陆 界面
     public function create()
     {
@@ -23,12 +30,12 @@ class SessionsController extends Controller
             'password'=>'required'
         ]);
 
-        var_dump(Auth::attempt($credentials),$request->has('remember'));
+//        var_dump(Auth::attempt($credentials),$request->has('remember'));
 
-        if(Auth::attempt($credentials)){
+        if(Auth::attempt($credentials,$request->has('remember'))){
             // 登陆成功
             session()->flash('success','登陆成功, 欢迎回来~');
-            return redirect()->route('users.show',[Auth::user()]);
+            return redirect()->intended(route('users.show',[Auth::user()]));
         }else{
             // 登陆失败
             session()->flash('danger','sorry, 您的邮箱和密码不匹配');
