@@ -17,10 +17,11 @@ class UsersTableSeeder extends Seeder
 
         $user = User::find(1);
         $user->update([
-            'name'     => 'xcyz360',
-            'email'    => 'xcyz360@yeah.net',
-            'password' => bcrypt('password'),
-            'is_admin' => true
+            'name'      => 'xcyz360',
+            'email'     => 'xcyz360@yeah.net',
+            'password'  => bcrypt('password'),
+            'is_admin'  => true,
+            'activated' => true,
         ]);
 
         $user = User::find(2);

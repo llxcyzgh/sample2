@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Auth;
+use Mail;
 
 class UsersController extends Controller
 {
@@ -13,7 +14,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['index', 'show', 'create', 'store']
+            'except' => ['index', 'show', 'create', 'store','confirmEmail']
         ]);
         $this->middleware('guest', [
             'only' => ['create']
@@ -79,9 +80,10 @@ class UsersController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        Auth::login($user);
-        session()->flash('success', '恭喜您, 注册成功~');
-        return redirect()->route('users.show', $user);
+//        Auth::login($user);
+        $this->sendEmailConfirmationTo($user);
+        session()->flash('success', '验证邮件已发送到你的注册邮箱上，请注意查收~');
+        return redirect('/ ');
 
     }
 
@@ -151,6 +153,48 @@ class UsersController extends Controller
         $data = $user->gravatar(80);
         // var_dump($data);
         return view('users.show', compact('data', 'user'));
+    }
+
+    // 新用户邮箱验证
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token',$token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
+        Auth::login($user);
+        session()->flash('success','恭喜,激活成功~');
+        return redirect()->route('users.show',[$user]);
+    }
+
+    // 发送邮件(邮件为驱动为log时)
+    public function sendEmailConfirmationTo2(User $user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'xcyz360@yeah.net';
+        $name = 'xcyz360';
+        $to = $user->email;
+        $subject = 'sample 确认注册邮箱';
+
+        Mail::send($view,$data,function ($message) use($from,$name,$to,$subject){
+            $message->from($from,$name)->to($to)->subject($subject);
+        });
+    }
+
+    // 发送邮件(邮件为驱动为smtp时)
+    public function sendEmailConfirmationTo(User $user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $to = $user->email;
+        $subject = 'sample 确认注册邮箱';
+
+        Mail::send($view,$data,function ($message) use($to,$subject){
+            $message->to($to)->subject($subject);
+        });
     }
 
     public function tt()

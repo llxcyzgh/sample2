@@ -9,8 +9,8 @@ class SessionsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('guest',[
-            'only'=>['create']
+        $this->middleware('guest', [
+            'only' => ['create']
         ]);
     }
 
@@ -25,20 +25,27 @@ class SessionsController extends Controller
     {
 //        var_dump($request);
 //        exit;
-        $credentials = $this->validate($request,[
-            'email'=>'required|email|max:255',
-            'password'=>'required'
+        $credentials = $this->validate($request, [
+            'email'    => 'required|email|max:255',
+            'password' => 'required'
         ]);
 
 //        var_dump(Auth::attempt($credentials),$request->has('remember'));
 
-        if(Auth::attempt($credentials,$request->has('remember'))){
+        if (Auth::attempt($credentials, $request->has('remember'))) {
             // 登陆成功
-            session()->flash('success','登陆成功, 欢迎回来~');
-            return redirect()->intended(route('users.show',[Auth::user()]));
-        }else{
+            if (Auth::user()->activated) {
+                session()->flash('success', '登陆成功, 欢迎回来~');
+                return redirect()->intended(route('users.show', [Auth::user()]));
+            } else {
+                Auth::logout();
+                session()->flash('success', '验证邮件已发送到你的注册邮箱上，请注意查收~');
+                return redirect('/ ');
+            }
+
+        } else {
             // 登陆失败
-            session()->flash('danger','sorry, 您的邮箱和密码不匹配');
+            session()->flash('danger', 'sorry, 您的邮箱和密码不匹配');
             return redirect()->back()->withInput();
         }
 
@@ -48,7 +55,7 @@ class SessionsController extends Controller
     public function destroy()
     {
         Auth::logout();
-        session()->flash('success','您已经成功退出~');
+        session()->flash('success', '您已经成功退出~');
         return redirect()->route('login');
 //        redirect('login');
     }

@@ -33,6 +33,19 @@ Route::get('login','SessionsController@create')->name('login');
 Route::post('login','SessionsController@store')->name('login');
 Route::delete('logout','SessionsController@destroy')->name('logout');
 
+// 新用户邮箱验证
+Route::get('/signup/confirm/{token}', 'UsersController@confirmEmail')->name('confirm_email');
+
+// 显示重置密码的邮箱发送页面
+Route::get('password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+// 执行邮箱发送重设链接动作
+Route::post('password/email','Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+// 显示密码更新页面
+Route::get('password/reset/{token}','Auth\ResetPasswordController@showResetForm')->name('password.reset');
+// 执行密码更新操作
+Route::post('password/reset','Auth\ResetPasswordController@reset')->name('password.update');
+
+
 
 // 测试用路由
 Route::get('tt', 'UsersController@tt')->name('tt');
