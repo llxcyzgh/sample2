@@ -8489,3 +8489,15 @@ a.user-info {
   text-decoration: none;
 }
 
+
+
+.status-name{
+  display: block;
+}
+.status-time{
+  display:block;
+}
+.status-content{
+  display: block;
+
+}

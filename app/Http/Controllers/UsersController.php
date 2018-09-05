@@ -14,7 +14,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['index', 'show', 'create', 'store','confirmEmail']
+            'except' => ['index', 'show', 'create', 'store', 'confirmEmail']
         ]);
         $this->middleware('guest', [
             'only' => ['create']
@@ -48,8 +48,10 @@ class UsersController extends Controller
 
 //        $data = $user->gravatar(80);
 //        return view('users.show', $data);
-
-        return view('users.show', compact('user'));
+        $statuses = $user->statuses()
+            ->orderBy('created_at', 'desc')
+            ->paginate(30);
+        return view('users.show', compact('user','statuses'));
     }
 
     // create 显示创建用户页面
@@ -136,14 +138,14 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
 //        var_dump(123);exit;
-        try{
-            $this->authorize('destroy',$user);
-        }catch (AuthorizationException $e){
+        try {
+            $this->authorize('destroy', $user);
+        } catch (AuthorizationException $e) {
             return abort('403', '无权访问 -- 哼 想乱改别人的信息,没门~');
         }
 
         $user->delete();
-        session()->flash('success','成功删除用户~');
+        session()->flash('success', '成功删除用户~');
         return back();
     }
 
@@ -158,41 +160,41 @@ class UsersController extends Controller
     // 新用户邮箱验证
     public function confirmEmail($token)
     {
-        $user = User::where('activation_token',$token)->firstOrFail();
+        $user = User::where('activation_token', $token)->firstOrFail();
 
-        $user->activated = true;
+        $user->activated        = true;
         $user->activation_token = null;
         $user->save();
 
         Auth::login($user);
-        session()->flash('success','恭喜,激活成功~');
-        return redirect()->route('users.show',[$user]);
+        session()->flash('success', '恭喜,激活成功~');
+        return redirect()->route('users.show', [$user]);
     }
 
     // 发送邮件(邮件为驱动为log时)
     public function sendEmailConfirmationTo2(User $user)
     {
-        $view = 'emails.confirm';
-        $data = compact('user');
-        $from = 'xcyz360@yeah.net';
-        $name = 'xcyz360';
-        $to = $user->email;
+        $view    = 'emails.confirm';
+        $data    = compact('user');
+        $from    = 'xcyz360@yeah.net';
+        $name    = 'xcyz360';
+        $to      = $user->email;
         $subject = 'sample 确认注册邮箱';
 
-        Mail::send($view,$data,function ($message) use($from,$name,$to,$subject){
-            $message->from($from,$name)->to($to)->subject($subject);
+        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
         });
     }
 
     // 发送邮件(邮件为驱动为smtp时)
     public function sendEmailConfirmationTo(User $user)
     {
-        $view = 'emails.confirm';
-        $data = compact('user');
-        $to = $user->email;
+        $view    = 'emails.confirm';
+        $data    = compact('user');
+        $to      = $user->email;
         $subject = 'sample 确认注册邮箱';
 
-        Mail::send($view,$data,function ($message) use($to,$subject){
+        Mail::send($view, $data, function ($message) use ($to, $subject) {
             $message->to($to)->subject($subject);
         });
     }

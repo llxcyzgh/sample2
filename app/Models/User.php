@@ -86,4 +86,14 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
+    // 关联状态表,一个用户对应多个状态,一对多
+    public function statuses(){
+        return $this->hasMany(Status::class,'user_id');
+    }
+
+    // 获取当前用户的全部状态
+    public function feed()
+    {
+        return $this->statuses()->orderBy('created_at','desc');
+    }
 }
