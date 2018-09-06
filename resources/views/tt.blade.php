@@ -26,14 +26,21 @@
 
 <body>
 <div>
-    <div class="container clearfix">
-        <div class="div-left pull-left">
-            <div>hello</div>
-            <div>world</div>
-        </div>
+    <ul class="list-inline">
+        <li>
+            <h6>{{count($user->stars)}}</h6>
+            <p>关注</p>
+        </li>
+        <li>
+            <h6>{{count($user->fans)}}</h6>
+            <p>粉丝</p>
+        </li>
+        <li>
+            <h6>{{count($user->statuses)}}</h6>
+            <p>微博</p>
+        </li>
 
-        <div class="div-right pull-right">海阔天空</div>
-    </div>
+    </ul>
 </div>
 </body>
 </html>

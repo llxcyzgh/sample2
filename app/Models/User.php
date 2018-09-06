@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\ResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
 
 class User extends Authenticatable
 {
@@ -86,14 +87,66 @@ class User extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
-    // 关联状态表,一个用户对应多个状态,一对多
-    public function statuses(){
-        return $this->hasMany(Status::class,'user_id');
+    // 关联关系 -- 关联状态表,一个用户对应多个状态,一对多
+    public function statuses()
+    {
+        return $this->hasMany(Status::class, 'user_id');
+    }
+
+    // 关联关系 -- 获取当前用户的粉丝
+    public function fans()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'stars_id', 'fans_id');
+    }
+
+    // 关联关系 -- 获取当前用户关注的人(明星)
+    public function stars()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'fans_id', 'stars_id');
+
+    }
+
+    // 执行关注动作
+    public function follow($stars_ids)
+    {
+        if (!is_array($stars_ids)) {
+            // $user_ids = compact('user_ids');
+            $stars_ids = [$stars_ids];
+        }
+        $this->stars()->sync($stars_ids, false);
+    }
+
+    // 执行取消关注动作
+    public function unfollow($stars_ids)
+    {
+        if (!is_array($stars_ids)) {
+            // $stars_ids = compact('stars_ids');
+            $stars_ids = [$stars_ids];
+        }
+        $this->stars()->detach($stars_ids);
+    }
+
+    // 查询 当前用户A 是否关注了 明星B
+    public function isFollowing($stars_id)
+    {
+        return $this->stars->contains($stars_id);
     }
 
     // 获取当前用户的全部状态
+    public function feed0()
+    {
+        return $this->statuses()->orderBy('created_at', 'desc');
+    }
+
+    // 获取当前用户及其所关注的用户的全部状态
     public function feed()
     {
-        return $this->statuses()->orderBy('created_at','desc');
+        // $user->followings == $user->followings()->get()
+        $user_ids = Auth::user()->stars->pluck('id')->toArray();
+        array_push($user_ids, Auth::user()->id);
+
+        return Status::whereIn('user_id', $user_ids)
+            ->with('user')
+            ->orderBy('created_at', 'desc');
     }
 }

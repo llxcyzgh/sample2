@@ -10,11 +10,11 @@
             <div class="col-md-4 text-center">
                 @include('shared._user_info_img',['user' => Auth::user()])
                 <br>
-                <p>
-                <h3>{{Auth::user()->name}}</h3></p>
+                <p>{{Auth::user()->name}}</p>
+                @include('shared._stats',['user'=>Auth::user()])
             </div>
 
-            <div class="col-md-8">
+            <div class="col-md-8" style="margin-top: 20px">
                 @include('shared._status_form')
             </div>
         </div>

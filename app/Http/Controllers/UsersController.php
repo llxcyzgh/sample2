@@ -51,7 +51,7 @@ class UsersController extends Controller
         $statuses = $user->statuses()
             ->orderBy('created_at', 'desc')
             ->paginate(30);
-        return view('users.show', compact('user','statuses'));
+        return view('users.show', compact('user', 'statuses'));
     }
 
     // create 显示创建用户页面
@@ -199,9 +199,31 @@ class UsersController extends Controller
         });
     }
 
+    // 显示当前用户的明星页面
+    public function getStars(User $user)
+    {
+        $users = $user->stars()->paginate(10);
+        $title = '我关注的人';
+        return view('users.show_stars',compact('users','title'));
+    }
+
+    // 显示当前用户的粉丝页面
+    public function getFans(User $user)
+    {
+        $users = $user->fans()->paginate(10);
+        $title = '我的粉丝';
+        return view('users.show_stars',compact('users','title'));
+    }
+
+
     public function tt()
     {
-        return view('tt');
+        $feed_items=[];
+        if(Auth::check()){
+            $feed_items = Auth::user()->feed()->paginate(30);
+        }
+        var_dump($feed_items[0]);
+//        return view('static_pages/home',compact('feed_items'));
     }
 
 }

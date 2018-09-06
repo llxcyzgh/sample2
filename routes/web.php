@@ -48,6 +48,14 @@ Route::post('password/reset','Auth\ResetPasswordController@reset')->name('passwo
 // 执行状态创建和删除操作
 Route::resource('statuses','StatusesController',['only'=>['store','destroy']]);
 
+// 显示当前用户关注的人(当前用户的明星)
+Route::get('/users/{user}/stars','UsersController@getStars')->name('stars');
+// 显示关注当前用户的人(当前用户的粉丝)
+Route::get('/users/{user}/fans','UsersController@getFans')->name('fans');
+
+// 执行 关注动作 和 取消关注动作
+route::post('/users/followers/{user}','FollowersController@store')->name('followers.store');
+route::delete('/users/followers/{user}','FollowersController@destroy')->name('followers.destroy');
 
 
 // 测试用路由

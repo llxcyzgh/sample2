@@ -48,4 +48,4 @@
 --}}
 
 @include('shared._user_info_img')
-<h1>{{ $user->name }}</h1>
+<h3>{{ $user->name }}</h3>
