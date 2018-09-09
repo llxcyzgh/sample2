@@ -104,7 +104,8 @@
         .right > div {
             /*border: 1px solid #00f;*/
             margin-left: 40px;
-            margin-top: 50px;
+            /*margin-top: 50px;*/
+            margin-top: 40px;
         }
 
         .right > .declaration {
@@ -118,6 +119,10 @@
         .mydt {
             font-weight: normal;
             /*color: orange;*/
+        }
+
+        .right dt>ul{
+            margin-top: 10px;
         }
 
         ol > li {
@@ -276,7 +281,7 @@
             </div>
 
             <!--工作经验-->
-            <div class="expericence">
+            <div class="experience">
                 <h3>
                     <span><i class="glyphicon glyphicon-briefcase"></i></span>
                     &emsp;
@@ -309,9 +314,6 @@
                                     <li>项目使用thinkphp5框架，前端使用X-admin1.0后台模板，完成文章、轮播图、分类、管理员和系统共5个管理模块;</li>
                                     <li>各个模块中数据的(除图片、文件) curd操作均采用jquery ajax实现，减少对服务器的重复请求.</li>
                                 </ol>
-                            </dd>
-
-
                             </dd>
                         </dl>
                     </li>
