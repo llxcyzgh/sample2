@@ -26,12 +26,18 @@
         </div>
 
     @else
-        <div class="jumbotron">
+        <div class="jumbotron" style="position: relative">
             <h3>您现在看到的是 zhujw 的项目案例之 <a href="/">类微博项目</a></h3>
             <div style="margin-top: 100px">
                 <a href="{{ route('login') }}" class="btn btn-success">登陆</a>
                 &nbsp;&nbsp;&nbsp;
                 <a href="{{ route('users.create') }}" class="btn btn-info">注册</a>
+            </div>
+
+            <div style="position: absolute;right: 0;bottom: 0;border: 1px solid rgb(255,255,255);" class="text-left">
+                <p style="font-size: 12px;margin: 0;padding: 0;">测试账号:</p>
+                <p style="font-size: 12px;margin: 0;padding: 0;">邮箱: xcyz360@yeah.net</p>
+                <p style="font-size: 12px;margin: 0;padding: 0;">密码: password</p>
             </div>
         </div>
 
@@ -50,6 +56,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-md-offset-2 col-md-5">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -65,5 +72,8 @@
                 </div>
             </div>
         </div>
+
+
+
     @endif
 @endsection

@@ -16,8 +16,11 @@
             {{--用户名 - {{ $user->name }}  | 邮箱 - {{$user->email}}      <br>--}}
             <li class="list-group-item">
                 {{--@include('shared._user_info')--}}
+                <a href="{{route('users.show',$user->id)}}">
                 @include('shared._user_info_img')
                 <sapn>{{ $user->name }}</sapn>
+                </a>
+
                 @can('destroy',$user)
                     <form action="{{ route('users.destroy',$user->id) }}" method="post" class="pull-right">
                         {{ csrf_field() }}
