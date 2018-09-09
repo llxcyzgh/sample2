@@ -32,6 +32,9 @@
                     @else
                         <li class="pull-right"><a href="{{ route('login') }}">登陆</a></li>
                         <li class="pull-right"><a href="{{ route('help') }}">帮助</a></li>
+
+                        <li class="pull-right"><a href="{{ route('case.resume') }}" style="color: tomato">个人简历</a></li>
+                        <li class="pull-right"><a href="{{ route('case.zxindex') }}" style="color: tomato">仿中兴首页</a></li>
                     @endif
                 </ul>
             </nav>

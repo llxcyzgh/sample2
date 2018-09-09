@@ -54,8 +54,18 @@ Route::get('/users/{user}/stars','UsersController@getStars')->name('stars');
 Route::get('/users/{user}/fans','UsersController@getFans')->name('fans');
 
 // 执行 关注动作 和 取消关注动作
-route::post('/users/followers/{user}','FollowersController@store')->name('followers.store');
-route::delete('/users/followers/{user}','FollowersController@destroy')->name('followers.destroy');
+Route::post('/users/followers/{user}','FollowersController@store')->name('followers.store');
+Route::delete('/users/followers/{user}','FollowersController@destroy')->name('followers.destroy');
+
+// 显示 个人简历 和 仿中兴主页
+Route::get('/resume',function (){
+    return view('case.zhu_resume');
+})->name('case.resume');
+Route::get('/zxindex',function (){
+    return view('case.zx_index');
+})->name('case.zxindex');
+
+
 
 
 // 测试用路由

@@ -2,6 +2,9 @@
 @extends('layouts.default')
 <!-- 更改默认模板中的title -->
 @section('title','注册')
+{{--引入表单验证js--}}
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/user_validate.js"></script>
 
 <!-- 填充内容 -->
 @section('content')
@@ -15,7 +18,7 @@
                 {{--如果有错误,则引入错误提示框--}}
                 @include('shared._errors')
 
-                <form method="post" action="{{ route('users.store') }}">
+                <form method="post" action="{{ route('users.store') }}" class="form-signup">
                     {{ csrf_field() }}
 
                     <div class="form-group">

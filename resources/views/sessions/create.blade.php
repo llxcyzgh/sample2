@@ -3,6 +3,10 @@
 {{--完成 @yield 的 title 的替换--}}
 @section('title','登陆')
 
+{{--引入表单验证js--}}
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="/js/user_validate.js"></script>
+
 @section('content')
     <div class="col-md-offset-2 col-md-8">
         <div class="panel panel-default">
@@ -13,7 +17,7 @@
             @include('shared._messages')
 
             <div class="panel-body">
-                <form action="{{ route('login') }}" method="post">
+                <form action="{{ route('login') }}" method="post" class="form-login">
                     {{ csrf_field() }}
 
                     <div class="form-group">
@@ -21,8 +25,8 @@
                         <input type="text" name="email" id="email" class="form-control" value="{{old('email')}}">
                     </div>
                     <div class="form-group">
-                        <label for="passowrd">密码 (<a href="{{ route('password.request') }}">忘记密码</a>)</label>
-                        <input type="password" name="password" id="passowrd" class="form-control" value="{{old('password')}}">
+                        <label for="password">密码 (<a href="{{ route('password.request') }}">忘记密码</a>)</label>
+                        <input type="password" name="password" id="password" class="form-control" value="{{old('password')}}">
                     </div>
 
                     <div class="checkbox">

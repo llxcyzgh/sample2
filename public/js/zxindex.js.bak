@@ -1,0 +1,64 @@
+$(function () {
+    // interval_banner = setInterval(clock, 3000);
+    // var interval_banner = setInterval("clock()", 10000);
+    var interval_banner = setInterval(clock, 10000);
+
+    function clock() {
+        var i = $('.figure > ol > li.figure_li_hove').index() + 2;
+        // console.log(i);
+        if (i > 4) {
+            i = 1;
+        }
+        // 其它li和图片
+        $(".figure > ol > li:nth-of-type(" + i + ")").siblings().removeClass("figure_li_hove");
+        $(".figure > img:nth-of-type(" + i + ")").siblings().removeClass("nothide");
+
+        // 当前li和图片
+        $(".figure > ol > li:nth-of-type(" + i + ")").addClass("figure_li_hove");
+        $(".figure > img:nth-of-type(" + i + ")").addClass("nothide");
+    }
+
+
+    $('.figure').mouseenter(function () {
+        clearInterval(interval_banner);
+
+        // 当前li的下标+1
+        // i = $('li.figure_li_hove').index() + 1;
+        // console.log(i);
+
+        // 其它li的效果
+        // $('.figure > ol > li').each(function(){removeClass('figure_li_hove');});
+        // $('li:nth-of-type(' + i + ')').siblings().removeClass('figure_li_hove');
+        // 当前li的效果
+        // $('li:nth-of-type(' + i + ')').addClass('figure_li_hove');
+
+        // 其它图片隐藏
+        // $('.figure > img').hide();
+        // $('.figure > img:nth-of-type(' + i + ')').siblings().hide()
+        // 当前图片显示
+        // $('.figure > img:nth-of-type(' + i + ')').show();
+    });
+
+    $('.figure').mouseout(function () {
+        clearInterval(interval_banner);
+
+        interval_banner = setInterval(clock, 1000);
+    });
+
+    $('.figure ol li').mouseenter(function (e) {
+        clearInterval(interval_banner);
+
+        var i = $(this).index() + 1;
+        console.log(i);
+
+        // $('.figure ol li:nth-of-type(' + i + ')').siblings().removeClass('figure_li_hove');
+        // $('.figure ol li:nth-of-type(' + i + ')').addClass('figure_li_hove');
+        $(this).siblings().removeClass('figure_li_hove');
+        $(this).addClass('figure_li_hove');
+
+        $('.figure > img:nth-of-type(' + i + ')').siblings().removeClass('nothide');
+        $('.figure > img:nth-of-type(' + i + ')').addClass('nothide');
+    });
+
+
+});

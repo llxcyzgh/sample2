@@ -27,15 +27,43 @@
 
     @else
         <div class="jumbotron">
-            <h1>Hello Laravel</h1>
-            <p class="lead">
-                您现在看到的是 <a href="/">zhujw 的第二个 laravel 项目</a>
-            </p>
-            <p>一切, 从这里开始</p>
-            <p>
+            <h3>您现在看到的是 zhujw 的项目案例之 <a href="/">类微博项目</a></h3>
+            <div style="margin-top: 100px">
                 <a href="{{ route('login') }}" class="btn btn-success">登陆</a>
                 &nbsp;&nbsp;&nbsp;
-                <a href="{{ route('users.create') }}" class="btn btn-info">注册</a></p>
+                <a href="{{ route('users.create') }}" class="btn btn-info">注册</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p class="panel-title">本项目主要功能包括</p>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">用户注册与登陆 (前后台验证)</li>
+                            <li class="list-group-item">登陆用户发表微博, 删除微博</li>
+                            <li class="list-group-item">用户之间关注, 取消关注</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-offset-2 col-md-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <p class="panel-title">本项目涉及到的框架有</p>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item">后台 Laravel 框架</li>
+                            <li class="list-group-item">前端 Bootstrap 框架</li>
+                            <li class="list-group-item">前端 Jquery 框架</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     @endif
 @endsection

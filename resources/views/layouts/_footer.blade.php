@@ -2,8 +2,8 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
     <footer class="footer">
         <p class="slogon pull-left">
-            <img class="brand-icon" src="https://a.photo/images/2018/08/30/laravel.jpg">
-            <a href="/">重复练习, 每日精进</a>
+            <img class="brand-icon" src="https://a.photo/images/2018/09/08/apple-icon.th.jpg">
+            <a href="/">Creating a Website</a>
 
         <div class="pull-right">
             <ul>
