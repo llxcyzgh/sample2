@@ -36,7 +36,8 @@
 
         .left {
             background-color: #254665;
-            height: 1150px !important;
+            /*height: 1150px !important;*/
+            /*height: 1150px !important;*/
         }
 
         .left > div {
